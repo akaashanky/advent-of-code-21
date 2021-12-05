@@ -16,6 +16,15 @@
        (partition 2)
        (map vec)))
 
+(defn init-square-matrix [dimension init-val]
+  (->> init-val
+       repeat
+       (take dimension)
+       vec
+       repeat
+       (take dimension)
+       vec))
+
 (defn get-floor-bounds [lines]
   (let [flattened-list (flatten lines)
         all-endpoints (partition 2 flattened-list)
@@ -23,10 +32,6 @@
         max-y-bound (reduce max (map second all-endpoints))
         max-bound (max max-x-bound max-y-bound)]
    [max-bound max-bound]))
-
-(defn square-matrix [dimension]
-  (vec (for [x (range 0 dimension)]
-         (vec (take dimension (repeat 0))))))
 
 (defn generate-points [point-1 point-2]
   (let [[x1 y1] point-1
@@ -65,7 +70,7 @@
                                   (= (second (first %1)) (second (second %1))))
                                lines)
         floor-bounds (get-floor-bounds lines)
-        floor (square-matrix (inc (first floor-bounds)))]
+        floor (init-square-matrix (inc (first floor-bounds)) 0)]
     (loop [remaining-lines filtered-lines                   ; use all lines for part-2
            floor-state floor]
       (if (= 0 (count remaining-lines))
