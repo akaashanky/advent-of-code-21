@@ -17,7 +17,7 @@
 
 (defn get-school-after-today [current-school]
   (mapcat (fn [fish-timer]
-            (if (= fish-timer 0)
+            (if (zero? fish-timer)
               [(get-next-val fish-timer) 8]
               [(get-next-val fish-timer)]))
           current-school))
@@ -25,7 +25,7 @@
 (defn get-school-after-n-days [starting-school n]
   (loop [current-school starting-school
          days-left n]
-    (if (= days-left 0)
+    (if (zero? days-left)
       current-school
       (recur (get-school-after-today current-school) (dec days-left)))))
 
